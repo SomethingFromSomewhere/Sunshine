@@ -39,12 +39,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup Release
-        id: setup_release
-        uses: LizardByte/setup-release-action@v2024.608.210128
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-
   setup_flatpak_matrix:
     name: Setup Flatpak Matrix
     runs-on: ubuntu-latest
