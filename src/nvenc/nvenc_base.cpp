@@ -8,6 +8,8 @@
 #include "src/logging.h"
 #include "src/utility.h"
 
+#include <cstdio>
+
 #define MAKE_NVENC_VER(major, minor) ((major) | ((minor) << 24))
 
 // Make sure we check backwards compatibility when bumping the Video Codec SDK version
@@ -218,6 +220,10 @@ namespace nvenc {
     init_params.frameRateNum = client_config.framerate;
     init_params.frameRateDen = 1;
 
+    std::printf("init_params.presetGUID: %d\n", init_params.presetGUID);
+    std::printf("init_params.enableEncodeAsync: %d\n", init_params.enableEncodeAsync);
+    std::printf("init_params.enableWeightedPrediction: %d\n", init_params.enableWeightedPrediction);
+
     NV_ENC_PRESET_CONFIG preset_config = { min_struct_version(NV_ENC_PRESET_CONFIG_VER), { min_struct_version(NV_ENC_CONFIG_VER, 7, 8) } };
     if (nvenc_failed(nvenc->nvEncGetEncodePresetConfigEx(encoder, init_params.encodeGUID, init_params.presetGUID, init_params.tuningInfo, &preset_config))) {
       BOOST_LOG(error) << "NvEncGetEncodePresetConfigEx failed: " << last_error_string;
@@ -236,6 +242,9 @@ namespace nvenc {
     enc_config.rcParams.multiPass = config.two_pass == nvenc_two_pass::quarter_resolution ? NV_ENC_TWO_PASS_QUARTER_RESOLUTION :
                                     config.two_pass == nvenc_two_pass::full_resolution    ? NV_ENC_TWO_PASS_FULL_RESOLUTION :
                                                                                             NV_ENC_MULTI_PASS_DISABLED;
+
+    std::printf("enc_config.rcParams.enableAQ: %d\n", enc_config.rcParams.enableAQ);
+    std::printf("enc_config.rcParams.multiPass: %d\n", enc_config.rcParams.multiPass);
 
     enc_config.rcParams.enableAQ = config.adaptive_quantization;
     enc_config.rcParams.averageBitRate = client_config.bitrate * 1000;
@@ -307,9 +316,52 @@ namespace nvenc {
         else {
           format_config.entropyCodingMode = NV_ENC_H264_ENTROPY_CODING_MODE_CABAC;
         }
+
+        std::printf("enc_config.profileGUID: %d\n\n", enc_config.profileGUID);
+        
+        std::printf("format_config.sliceModeData: %d\n", format_config.sliceModeData);
+        std::printf("format_config.chromaFormatIDC: %d\n", format_config.chromaFormatIDC);
+        std::printf("format_config.enableFillerDataInsertion: %d\n", format_config.enableFillerDataInsertion);
+        std::printf("format_config.entropyCodingMode: %d\n\n", format_config.entropyCodingMode);
+
+        std::printf("format_config.entropyCodingMode: %d\n\n", format_config.entropyCodingMode);
+        
         set_ref_frames(format_config.maxNumRefFrames, format_config.numRefL0, 5);
+        std::printf("format_config.maxNumRefFrames: %d\n", format_config.maxNumRefFrames);
+        std::printf("format_config.numRefL0: %d\n", format_config.numRefL0);
+
+
         set_minqp_if_enabled(config.min_qp_h264);
+        std::printf("enc_config.rcParams.enableMinQP: %d\n", enc_config.rcParams.enableMinQP);
+        std::printf("enc_config.rcParams.minQP.qpInterP: %d\n", rcParams.minQP.qpInterP);
+        std::printf("enc_config.rcParams.minQP.qpIntra: %d\n\n", rcParams.minQP.qpIntra);
+        
+        auto fill_h264_hevc_vui = [&colorspace](auto &vui_config) {
+          vui_config.videoSignalTypePresentFlag = 1;
+          vui_config.videoFormat = NV_ENC_VUI_VIDEO_FORMAT_UNSPECIFIED;
+          vui_config.videoFullRangeFlag = colorspace.full_range;
+          vui_config.colourDescriptionPresentFlag = 1;
+          vui_config.colourPrimaries = colorspace.primaries;
+          vui_config.transferCharacteristics = colorspace.tranfer_function;
+          vui_config.colourMatrix = colorspace.matrix;
+          vui_config.chromaSampleLocationFlag = 1;
+          vui_config.chromaSampleLocationTop = 0;
+          vui_config.chromaSampleLocationBot = 0;
+        };
+        
         fill_h264_hevc_vui(format_config.h264VUIParameters);
+        std::printf("vui_config.videoSignalTypePresentFlag: %d\n", vui_config.videoSignalTypePresentFlag);
+        std::printf("vui_config.videoFormat: %d\n", vui_config.videoFormat);
+        std::printf("vui_config.videoFullRangeFlag: %d\n", vui_config.videoFullRangeFlag);
+        std::printf("vui_config.colourDescriptionPresentFlag: %d\n", vui_config.colourDescriptionPresentFlag);
+        std::printf("vui_config.colourPrimaries: %d\n", vui_config.colourPrimaries);
+        std::printf("vui_config.transferCharacteristics: %d\n", vui_config.transferCharacteristics);
+        std::printf("vui_config.colourMatrix: %d\n", vui_config.colourMatrix);
+        std::printf("vui_config.chromaSampleLocationFlag: %d\n", vui_config.chromaSampleLocationFlag);
+        std::printf("vui_config.chromaSampleLocationTop: %d\n", vui_config.chromaSampleLocationTop);
+        std::printf("vui_config.chromaSampleLocationTop: %d\n", vui_config.chromaSampleLocationTop);
+        std::printf("vui_config.chromaSampleLocationBot: %d\n", vui_config.chromaSampleLocationBot);
+        
         break;
       }
 
