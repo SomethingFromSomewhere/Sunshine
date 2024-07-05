@@ -350,17 +350,17 @@ namespace nvenc {
         };
         
         fill_h264_hevc_vui(format_config.h264VUIParameters);
-        std::printf("vui_config.videoSignalTypePresentFlag: %d\n", format_config.h264VUIParameters.vui_config.videoSignalTypePresentFlag);
-        std::printf("vui_config.videoFormat: %d\n", format_config.h264VUIParameters.vui_config.videoFormat);
-        std::printf("vui_config.videoFullRangeFlag: %d\n", format_config.h264VUIParameters.vui_config.videoFullRangeFlag);
-        std::printf("vui_config.colourDescriptionPresentFlag: %d\n", format_config.h264VUIParameters.vui_config.colourDescriptionPresentFlag);
-        std::printf("vui_config.colourPrimaries: %d\n", format_config.h264VUIParameters.vui_config.colourPrimaries);
-        std::printf("vui_config.transferCharacteristics: %d\n", format_config.h264VUIParameters.vui_config.transferCharacteristics);
-        std::printf("vui_config.colourMatrix: %d\n", format_config.h264VUIParameters.vui_config.colourMatrix);
-        std::printf("vui_config.chromaSampleLocationFlag: %d\n", format_config.h264VUIParameters.vui_config.chromaSampleLocationFlag);
-        std::printf("vui_config.chromaSampleLocationTop: %d\n", format_config.h264VUIParameters.vui_config.chromaSampleLocationTop);
-        std::printf("vui_config.chromaSampleLocationTop: %d\n", format_config.h264VUIParameters.vui_config.chromaSampleLocationTop);
-        std::printf("vui_config.chromaSampleLocationBot: %d\n", format_config.h264VUIParameters.vui_config.chromaSampleLocationBot);
+        std::printf("vui_config.videoSignalTypePresentFlag: %d\n", format_config.h264VUIParameters.videoSignalTypePresentFlag);
+        std::printf("vui_config.videoFormat: %d\n", format_config.h264VUIParameters.videoFormat);
+        std::printf("vui_config.videoFullRangeFlag: %d\n", format_config.h264VUIParameters.videoFullRangeFlag);
+        std::printf("vui_config.colourDescriptionPresentFlag: %d\n", format_config.h264VUIParameters.colourDescriptionPresentFlag);
+        std::printf("vui_config.colourPrimaries: %d\n", format_config.h264VUIParameters.colourPrimaries);
+        std::printf("vui_config.transferCharacteristics: %d\n", format_config.h264VUIParameters.transferCharacteristics);
+        std::printf("vui_config.colourMatrix: %d\n", format_config.h264VUIParameters.colourMatrix);
+        std::printf("vui_config.chromaSampleLocationFlag: %d\n", format_config.h264VUIParameters.chromaSampleLocationFlag);
+        std::printf("vui_config.chromaSampleLocationTop: %d\n", format_config.h264VUIParameters.chromaSampleLocationTop);
+        std::printf("vui_config.chromaSampleLocationTop: %d\n", format_config.h264VUIParameters.chromaSampleLocationTop);
+        std::printf("vui_config.chromaSampleLocationBot: %d\n", format_config.h264VUIParameters.chromaSampleLocationBot);
         
         break;
       }
