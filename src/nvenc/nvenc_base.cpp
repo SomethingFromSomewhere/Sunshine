@@ -230,6 +230,12 @@ namespace nvenc {
       return false;
     }
 
+    std::printf("NV_ENC_PRESET_CONFIG version: %d\n", preset_config.version);
+    std::printf("NV_ENC_CONFIG version: %d\n", preset_config.presetCfg.version);
+
+    std::printf("NV_ENC_PRESET_CONFIG version: %d\n", min_struct_version(NV_ENC_PRESET_CONFIG_VER));
+    std::printf("NV_ENC_CONFIG version: %d\n", min_struct_version(NV_ENC_CONFIG_VER, 7, 8));
+
     NV_ENC_CONFIG enc_config = preset_config.presetCfg;
     enc_config.profileGUID = NV_ENC_CODEC_PROFILE_AUTOSELECT_GUID;
     enc_config.gopLength = NVENC_INFINITE_GOPLENGTH;
